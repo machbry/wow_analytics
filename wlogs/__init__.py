@@ -1,1 +1,1 @@
-from .api import Client, client_from_json, Connector
+from .api import GraphQLClient, graphQL_client_from_json
