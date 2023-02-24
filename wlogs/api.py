@@ -1,12 +1,16 @@
+import os
 import json
 from pathlib import Path
 from dataclasses import dataclass
 
 import requests
 
+from .file_manager import WowPaths
+
 # https://www.warcraftlogs.com/api/docs
 TOKEN_URL = "https://www.warcraftlogs.com/oauth/token"
 AUTH_FLOW_DATA = {'grant_type': 'client_credentials'}
+CLIENT_CREDENTIALS_PATH = os.path.join(WowPaths.BASE_PATH.value, 'client_credentials.json')
 
 
 @dataclass
@@ -40,6 +44,6 @@ class GraphQLClient:
         return json.loads(response.text)
 
 
-def graphQL_client_from_json(path: Path) -> GraphQLClient:
+def graphQL_client_from_json(path: Path = CLIENT_CREDENTIALS_PATH) -> GraphQLClient:
     with open(path, 'r') as f:
         return GraphQLClient(**json.load(f))
