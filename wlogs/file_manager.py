@@ -1,6 +1,5 @@
 from enum import Enum
 import os
-from typing import List
 from pathlib import Path
 import json
 from datetime import datetime
@@ -25,10 +24,7 @@ class WowDirs(Enum):
             os.makedirs(path)
 
 
-def check_and_create_dirs(directories: List[Path]):
-    for directory in directories:
-        if not os.path.exists(directory):
-            os.makedirs(directory)
+LATEST_REPORTS_FILE_PATH = os.path.join(WowDirs.REPORTS_LATEST.value, f"{REPORTS_STR}.json")
 
 
 def now_to_string() -> str:
@@ -37,14 +33,15 @@ def now_to_string() -> str:
 
 def save_guild_reports_to_json(content):
     file_path = os.path.join(WowDirs.REPORTS.value, f"{REPORTS_STR}_{now_to_string()}.json")
-    latest_file_path = os.path.join(WowDirs.REPORTS_LATEST.value, f"{REPORTS_STR}.json")
 
     with open(file_path, 'w', encoding='utf-8') as f:
         json.dump(content, f)
 
-    with open(latest_file_path, 'w', encoding='utf-8') as f:
+    with open(LATEST_REPORTS_FILE_PATH, 'w', encoding='utf-8') as f:
         json.dump(content, f)
 
 
 def load_latest_reports() -> pd.DataFrame:
-    pass
+    with open(LATEST_REPORTS_FILE_PATH, 'r', encoding='utf-8') as f:
+        guild_reports = json.load(f)
+    return pd.DataFrame(guild_reports)
