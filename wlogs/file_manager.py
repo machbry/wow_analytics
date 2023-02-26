@@ -17,6 +17,7 @@ class WowDirs(Enum):
     DATA = os.path.join(BASE, DATA_STR)
     REPORTS = os.path.join(DATA, REPORTS_STR)
     REPORTS_LATEST = os.path.join(REPORTS, LATEST_STR)
+    REPORTS_DATA = os.path.join(REPORTS, DATA_STR)
 
     def __init__(self, path: Path):
         super().__init__()
@@ -45,3 +46,9 @@ def load_latest_reports() -> pd.DataFrame:
     with open(LATEST_REPORTS_FILE_PATH, 'r', encoding='utf-8') as f:
         guild_reports = json.load(f)
     return pd.DataFrame(guild_reports)
+
+
+def save_report_data_to_json(content, code):
+    file_path = os.path.join(WowDirs.REPORTS_DATA.value, f"{str(code)}.json")
+    with open(file_path, 'w', encoding='utf-8') as f:
+        json.dump(content, f)
