@@ -5,12 +5,12 @@ from dataclasses import dataclass
 
 import requests
 
-from .file_manager import WowPaths
+from .file_manager import WowDirs
 
 # https://www.warcraftlogs.com/api/docs
 TOKEN_URL = "https://www.warcraftlogs.com/oauth/token"
 AUTH_FLOW_DATA = {'grant_type': 'client_credentials'}
-CLIENT_CREDENTIALS_PATH = os.path.join(WowPaths.BASE_PATH.value, 'client_credentials.json')
+CLIENT_CREDENTIALS_PATH = os.path.join(WowDirs.BASE.value, 'client_credentials.json')
 
 
 @dataclass
