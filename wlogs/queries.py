@@ -7,5 +7,6 @@ def query_reports_on_page(guild_id, page) -> str:
 def query_report(code, actor_type="Player"):
     query = "query {reportData {report(code: "+"\""+code+"\""+") {code title startTime endTime masterData \
     {actors(type:"+"\""+actor_type+"\""+") {id name type subType}} \
-    fights {id name difficulty encounterID size startTime endTime kill bossPercentage lastPhase averageItemLevel}}}}"
+    fights {id name difficulty encounterID size hardModeLevel startTime endTime kill bossPercentage lastPhase \
+    averageItemLevel}}}}"
     return query
