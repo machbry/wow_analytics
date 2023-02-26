@@ -26,12 +26,12 @@ def check_and_create_dirs(directories: List[Path]):
             os.makedirs(directory)
 
 
-def save_guild_reports_to_json(content, guild_id: int):
+def save_guild_reports_to_json(content):
     reports_dir = WowPaths.REPORTS.value
     reports_latest_dir = os.path.join(reports_dir, LATEST_DIR_NAME)
 
-    file_path = os.path.join(reports_dir, f"{str(guild_id)}_reports_{now_to_string()}.json")
-    latest_file_path = os.path.join(reports_latest_dir, f"{str(guild_id)}_reports_latest.json")
+    file_path = os.path.join(reports_dir, f"reports_{now_to_string()}.json")
+    latest_file_path = os.path.join(reports_latest_dir, f"reports_latest.json")
 
     check_and_create_dirs([reports_dir, reports_latest_dir])
 
