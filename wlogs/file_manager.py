@@ -73,6 +73,11 @@ def save_report_data_to_json(content, code):
         json.dump(content, f)
 
 
+def get_reports_code_saved() -> List[str]:
+    reports_data_files = get_files_from_folder(folder=WowDirs.REPORTS_DATA.value, extension=FileExt.JSON.value)
+    return [os.path.splitext(os.path.basename(json_path))[0] for json_path in reports_data_files]
+
+
 def load_reports_data() -> dict:
     reports_data_files = get_files_from_folder(folder=WowDirs.REPORTS_DATA.value, extension=FileExt.JSON.value)
     reports_data = {}
