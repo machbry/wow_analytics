@@ -1,4 +1,3 @@
-import os
 import json
 from pathlib import Path
 from dataclasses import dataclass
@@ -10,7 +9,7 @@ from .file_manager import WowDirs
 # https://www.warcraftlogs.com/api/docs
 TOKEN_URL = "https://www.warcraftlogs.com/oauth/token"
 AUTH_FLOW_DATA = {'grant_type': 'client_credentials'}
-CLIENT_CREDENTIALS_PATH = os.path.join(WowDirs.BASE.value, 'client_credentials.json')
+CLIENT_CREDENTIALS_PATH = WowDirs.BASE.value / "client_credentials.json"
 
 
 @dataclass
