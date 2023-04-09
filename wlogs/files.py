@@ -11,7 +11,7 @@ ENCODING = 'utf-8'
 DATA_STR = "data"
 LATEST_STR = "latest"
 REPORTS_STR = "reports"
-REPORTS_DATA_STR = REPORTS_STR + "_" + DATA_STR
+REPORTS_DATA_STR = "report_data"
 
 
 class FileExt(Enum):
