@@ -4,7 +4,7 @@ from dataclasses import dataclass
 
 import requests
 
-from .file_manager import WowDirs
+from .files_storage import WowDirs
 
 # https://www.warcraftlogs.com/api/docs
 TOKEN_URL = "https://www.warcraftlogs.com/oauth/token"

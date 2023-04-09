@@ -1,6 +1,5 @@
 from typing import List
 from enum import Enum
-import os
 from pathlib import Path
 import json
 from datetime import datetime
@@ -8,10 +7,11 @@ import pandas as pd
 
 
 DATE_FORMAT = "%d-%m-%Y"
-DATA_STR = "data"
-REPORTS_STR = "reports"
-LATEST_STR = "latest"
 ENCODING = 'utf-8'
+DATA_STR = "data"
+LATEST_STR = "latest"
+REPORTS_STR = "reports"
+REPORTS_DATA_STR = REPORTS_STR + "_" + DATA_STR
 
 
 class FileExt(Enum):
@@ -27,12 +27,11 @@ class WowDirs(Enum):
     DATA = BASE / DATA_STR
     REPORTS = DATA / REPORTS_STR
     REPORTS_LATEST = REPORTS / LATEST_STR
-    REPORTS_DATA = REPORTS / DATA_STR
+    REPORTS_DATA = DATA / REPORTS_DATA_STR
 
     def __init__(self, path: Path):
         super().__init__()
-        if not path.exists():
-            os.makedirs(path)
+        path.mkdir(parents=True, exist_ok=True)
 
 
 LATEST_REPORTS_FILE_PATH = WowDirs.REPORTS_LATEST.value / f"{REPORTS_STR}{FileExt.JSON.value}"
