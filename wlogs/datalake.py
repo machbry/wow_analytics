@@ -37,28 +37,35 @@ class Lake:
         latest_filename = f"{self._name}{self._storage_format.value}"
         return self._latest_directory / latest_filename if self._latest else None
 
+    def all_files_stored(self) -> List[Path]:
+        return [self._directory / filename for filename in self._directory.glob(f"*{self._storage_format.value}")]
+
+    def all_filenames_stored(self) -> List[str]:
+        return [path.stem for path in self.all_files_stored()]
+
     def now_to_string(self) -> str:
         return datetime.now().strftime(self._date_format)
 
-    def new_file_path(self) -> Path:
-        filename = f"{self._name}_{self.now_to_string()}{self._storage_format.value}"
+    def new_file_path(self, custom_filename: str) -> Path:
+        filename = f"{custom_filename}{self._storage_format.value}" if custom_filename else \
+            f"{self._name}_{self.now_to_string()}{self._storage_format.value}"
         return self._directory / filename
 
-    def store_to_json(self, json_content: Union[list, dict], path: Path):
+    def store_to_json(self, json_content: Union[list, dict], path: Path) -> None:
         with open(path, 'w', encoding=self._encoding) as f:
             json.dump(json_content, f)
 
-    def store_to_csv(self, df: pd.DataFrame, path: Path):
+    def store_to_csv(self, df: pd.DataFrame, path: Path) -> None:
         df.to_csv(path, sep=self._csv_sep)
 
-    def store(self, content: Union[list, dict, pd.DataFrame]):
+    def store(self, content: Union[list, dict, pd.DataFrame], custom_filename: str = None) -> None:
         if self._storage_format == StorageFormat.json:
             assert isinstance(content, (list, dict))
-            self.store_to_json(json_content=content, path=self.new_file_path())
+            self.store_to_json(json_content=content, path=self.new_file_path(custom_filename=custom_filename))
             if self._latest:
                 self.store_to_json(json_content=content, path=self.latest_file_path)
         elif self._storage_format == StorageFormat.csv:
             assert isinstance(content, pd.DataFrame)
-            self.store_to_csv(df=content, path=self.new_file_path())
+            self.store_to_csv(df=content, path=self.new_file_path(custom_filename=custom_filename))
             if self._latest:
                 self.store_to_csv(df=content,path=self.latest_file_path)
