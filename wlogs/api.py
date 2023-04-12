@@ -1,6 +1,7 @@
 import json
 from pathlib import Path
 from dataclasses import dataclass
+from typing import Any
 
 import requests
 
@@ -29,14 +30,14 @@ class GraphQLClient:
         self._headers = {'Authorization': 'Bearer ' + self._access_token}
 
     @property
-    def authorize_url(self):
+    def authorize_url(self) -> str:
         return self._authorize_url
 
     @property
-    def access_token(self):
+    def access_token(self) -> str:
         return self._access_token
 
-    def post(self, query: str) -> dict:
+    def post(self, query: str) -> Any:
         response = requests.get(self._authorize_url,
                                 headers=self._headers,
                                 json={'query': query})

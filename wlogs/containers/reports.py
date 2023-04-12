@@ -1,7 +1,7 @@
 import pandas as pd
 import json
 
-from wlogs.datalake import StorageFormat, Lake
+from wlogs.storage import StorageFormat, Lake
 
 
 class ReportsLake(Lake):

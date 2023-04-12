@@ -1,4 +1,5 @@
-from typing import Union, List
+from typing import Union, List, Any
+from dataclasses import dataclass
 from pathlib import Path
 from enum import Enum
 from datetime import datetime
@@ -10,6 +11,10 @@ DATA_DIRECTORY: Path = Path(__file__).parent.parent.resolve() / "data"
 DATE_FORMAT = "%d-%m-%Y"
 ENCODING = 'utf-8'
 CSV_SEP = ";"
+
+
+def now_to_string(date_format: str) -> str:
+    return datetime.now().strftime(date_format)
 
 
 class StorageFormat(Enum):
@@ -69,3 +74,64 @@ class Lake:
             self.store_to_csv(df=content, path=self.new_file_path(custom_filename=custom_filename))
             if self._latest:
                 self.store_to_csv(df=content,path=self.latest_file_path)
+
+
+class FileFormat:
+    def __init__(self, suffix: str, encoding: str):
+        self._suffix = suffix
+        self._encoding = encoding
+
+    @property
+    def suffix(self) -> str:
+        return self._suffix
+
+    @property
+    def encoding(self) -> str:
+        return self._encoding
+
+
+class CSVFormat(FileFormat):
+    def __init__(self, encoding: str = "utf-8", sep: str = ";"):
+        super().__init__(suffix='.csv', encoding=encoding)
+        self._sep = sep
+
+
+class JSONFormat(FileFormat):
+    def __init__(self, encoding: str = "utf-8"):
+        super().__init__(suffix='.json', encoding=encoding)
+
+
+class ContainerInterface:
+    def __init__(self, name: str, storage_file_format: FileFormat, parent: Path):
+        self._name = name
+        self._storage_file_format = storage_file_format
+        self._parent = parent
+        self._directory: Path = parent / name
+        self._directory.mkdir(parents=True, exist_ok=True)
+
+    def new_file_path(self, custom_filename: Union[str, None] = None) -> Path:
+        filename = f"{custom_filename}{self._storage_file_format.suffix}" if custom_filename else \
+            f"{self._name}_{now_to_string(date_format='%d-%m-%Y')}{self._storage_file_format.suffix}"
+        return self._directory / filename
+
+
+class BatchContainer(ContainerInterface):
+    def __init__(self, name: str, storage_file_format: FileFormat, parent: Path):
+        super().__init__(name=name, storage_file_format=storage_file_format, parent=parent)
+
+    def all_files_stored(self) -> List[Path]:
+        return [self._directory / filename for filename in self._directory.glob(f"*{self._storage_file_format.suffix}")]
+
+    def all_filenames_stored(self) -> List[str]:
+        return [path.stem for path in self.all_files_stored()]
+
+
+class LatestContainer(ContainerInterface):
+    def __init__(self, name: str, storage_file_format: FileFormat, parent: Path):
+        super().__init__(name=name, storage_file_format=storage_file_format, parent=parent)
+        self._latest_directory: Path = self._directory / "latest"
+
+    @property
+    def latest_file_path(self) -> Union[Path, None]:
+        latest_filename = f"{self._name}{self._storage_file_format.suffix}"
+        return self._latest_directory / latest_filename
