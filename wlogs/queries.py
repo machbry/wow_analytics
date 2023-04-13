@@ -4,6 +4,15 @@ from .api import graphQL_client_from_json
 CLIENT = graphQL_client_from_json()
 
 
+def query_item(id: int, client=CLIENT) -> dict:
+    query = "query {" +\
+                "gameData{" +\
+                    "item(id: " + str(id) + "){" +\
+                        "id " +\
+                        "name}}}"
+    return client.post(query)
+
+
 def query_game_zones_on_page(page: int, client=CLIENT) -> dict:
     query = "query {" +\
                 "gameData{" +\
