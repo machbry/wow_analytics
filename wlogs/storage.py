@@ -1,4 +1,4 @@
-from typing import Union, List, Any
+from typing import Union, List, Any, Dict
 from pathlib import Path
 from datetime import datetime
 import json
@@ -28,6 +28,9 @@ class FileFormat:
     def write_file(self, content: Any, path: Path):
         pass
 
+    def read_file(self, path: Path) -> Any:
+        pass
+
 
 class CSVFormat(FileFormat):
     def __init__(self, encoding: str = "utf-8", sep: str = ";"):
@@ -37,6 +40,9 @@ class CSVFormat(FileFormat):
     def write_file(self, content: pd.DataFrame, path: Path) -> None:
         content.to_csv(path, sep=self._sep)
 
+    def read_file(self, path: Path) -> pd.DataFrame:
+        return pd.read_csv(path, encoding=self._encoding, sep=self._sep)
+
 
 class JSONFormat(FileFormat):
     def __init__(self, encoding: str = "utf-8"):
@@ -45,6 +51,11 @@ class JSONFormat(FileFormat):
     def write_file(self, content: Union[list, dict], path: Path) -> None:
         with open(path, 'w', encoding=self._encoding) as f:
             json.dump(content, f)
+
+    def read_file(self, path: Path) -> Union[list, dict]:
+        with open(path, 'r', encoding=self._encoding) as f:
+            content = json.load(f)
+        return content
 
 
 class Container:
@@ -74,6 +85,9 @@ class BatchContainer(Container):
     def all_filenames_stored(self) -> List[str]:
         return [path.stem for path in self.all_files_stored()]
 
+    def extract(self) -> Dict[str, Any]:
+        return {path.stem: self._storage_file_format.read_file(path=path) for path in self.all_files_stored()}
+
 
 class LatestContainer(Container):
     def __init__(self, name: str, storage_file_format: FileFormat, parent: Path):
@@ -89,3 +103,6 @@ class LatestContainer(Container):
     def store(self, content, custom_filename: Union[str, None] = None):
         super().store(content=content, custom_filename=custom_filename)
         self._storage_file_format.write_file(content=content, path=self.latest_file_path)
+
+    def extract(self) -> Any:
+        return self._storage_file_format.read_file(path=self.latest_file_path)
