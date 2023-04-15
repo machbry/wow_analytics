@@ -1,3 +1,4 @@
+from typing import List
 from wlogs.storage import LatestContainer, JSONFormat, DATA_DIRECTORY
 
 
@@ -7,3 +8,7 @@ class BisListContainer(LatestContainer):
 
     def extract(self) -> dict:
         return super().extract()
+
+    def get_all_items_id(self) -> List[int]:
+        bis_list_json = super().extract()
+        return [int(id) for id in bis_list_json.keys()]
