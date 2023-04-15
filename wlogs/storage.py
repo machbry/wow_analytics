@@ -6,6 +6,8 @@ import pandas as pd
 
 
 DATA_DIRECTORY: Path = Path(__file__).parent.parent.resolve() / "data"
+TEMP_DIRECTORY: Path = DATA_DIRECTORY / "temp"
+TEMP_DIRECTORY.mkdir(parents=True, exist_ok=True)
 
 
 def now_to_string(date_format: str) -> str:
