@@ -71,7 +71,7 @@ class Container:
             f"{self._name}_{now_to_string(date_format='%d-%m-%Y')}{self._storage_file_format.suffix}"
         return self._directory / filename
 
-    def store(self, content, custom_filename: Union[str, None] = None):
+    def store(self, content: Any, custom_filename: Union[str, None] = None):
         self._storage_file_format.write_file(content=content, path=self.new_file_path(custom_filename=custom_filename))
 
 
@@ -100,7 +100,7 @@ class LatestContainer(Container):
         latest_filename = f"{self._name}{self._storage_file_format.suffix}"
         return self._latest_directory / latest_filename
 
-    def store(self, content, custom_filename: Union[str, None] = None):
+    def store(self, content: Any, custom_filename: Union[str, None] = None):
         super().store(content=content, custom_filename=custom_filename)
         self._storage_file_format.write_file(content=content, path=self.latest_file_path)
 
