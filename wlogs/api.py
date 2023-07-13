@@ -5,6 +5,9 @@ from typing import Any
 
 import requests
 
+from .logger import Logger
+
+logger = Logger().get()
 
 # https://www.warcraftlogs.com/api/docs
 TOKEN_URL = "https://www.warcraftlogs.com/oauth/token"
@@ -23,10 +26,17 @@ class GraphQLClient:
     _access_token: str = ""
 
     def __post_init__(self):
+        logger.debug(f"Token request for client {self._client_id} at {self._token_url}.")
         response = requests.post(url=self._token_url,
                                  data=self._auth_flow_data,
                                  auth=(self._client_id, self._client_secret))
-        self._access_token = response.json()['access_token']
+        try:
+            self._access_token = response.json()['access_token']
+        except KeyError:
+            logger.error("Access token not retrieved.")
+            raise
+        else:
+            logger.info("Access token retrieved.")
         self._headers = {'Authorization': 'Bearer ' + self._access_token}
 
     @property
@@ -38,6 +48,7 @@ class GraphQLClient:
         return self._access_token
 
     def post(self, query: str) -> Any:
+        logger.debug(f"Query request: {query}")
         response = requests.get(self._authorize_url,
                                 headers=self._headers,
                                 json={'query': query})
