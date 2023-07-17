@@ -1,21 +1,15 @@
 from pathlib import Path
 from dataclasses import dataclass
 import json
+import yaml
+
 
 CONF_DIRECTORY: Path = Path(__file__).parent.parent.resolve() / "conf"
 
 
-@dataclass
-class LoggingBasicConfig:
-    level: str
-    filename: str
-    filemode: str
-    format: str
-
-
-def logging_basic_config_from_json(path: Path = CONF_DIRECTORY / "logging_basic.json") -> LoggingBasicConfig:
+def logging_config_from_yaml(path: Path = CONF_DIRECTORY / "logs.yaml") -> dict:
     with open(path, 'r') as f:
-        return LoggingBasicConfig(**json.load(f))
+        return yaml.safe_load(f.read())
 
 
 @dataclass

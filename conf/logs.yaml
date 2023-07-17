@@ -1,0 +1,22 @@
+version: 1
+formatters:
+  brief:
+    format: "%(message)s"
+  precise:
+    format: "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
+handlers:
+  console:
+    class: logging.StreamHandler
+    level: INFO
+    formatter: brief
+    stream: ext://sys.stdout
+  file:
+    class: logging.FileHandler
+    level: DEBUG
+    formatter: precise
+    filename: "../data/logs/app.log"
+    mode: "a"
+loggers:
+  wlogs:
+    level: DEBUG
+    handlers: [console, file]
