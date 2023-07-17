@@ -33,7 +33,7 @@ class GraphQLClient:
         try:
             self._access_token = response.json()['access_token']
         except KeyError:
-            logger.error("Access token not retrieved.")
+            logger.exception("Access token not retrieved.")
             raise
         else:
             logger.info("Access token retrieved.")
