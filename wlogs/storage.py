@@ -1,3 +1,4 @@
+import os
 from typing import Union, List, Any, Dict
 from pathlib import Path
 from datetime import datetime
@@ -5,7 +6,7 @@ import json
 import pandas as pd
 
 
-DATA_DIRECTORY: Path = Path(__file__).parent.parent.resolve() / "data"
+DATA_DIRECTORY: Path = Path(os.environ["WA_ROOT_DIR"]) / "data"
 TEMP_DIRECTORY: Path = DATA_DIRECTORY / "temp"
 TEMP_DIRECTORY.mkdir(parents=True, exist_ok=True)
 

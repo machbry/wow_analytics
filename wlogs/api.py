@@ -1,3 +1,4 @@
+import os
 import json
 from pathlib import Path
 from dataclasses import dataclass
@@ -12,7 +13,7 @@ logger = Logger().get()
 # https://www.warcraftlogs.com/api/docs
 TOKEN_URL = "https://www.warcraftlogs.com/oauth/token"
 AUTH_FLOW_DATA = {'grant_type': 'client_credentials'}
-BASE_DIRECTORY = Path(__file__).parent.parent.resolve()
+BASE_DIRECTORY = Path(os.environ["WA_ROOT_DIR"]).resolve()
 CLIENT_CREDENTIALS_PATH = BASE_DIRECTORY / "client_credentials.json"
 
 

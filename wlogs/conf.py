@@ -1,10 +1,11 @@
+import os
 from pathlib import Path
 from dataclasses import dataclass
 import json
 import yaml
 
 
-CONF_DIRECTORY: Path = Path(__file__).parent.parent.resolve() / "conf"
+CONF_DIRECTORY: Path = Path(os.environ["WA_ROOT_DIR"]) / "conf"
 
 
 def logging_config_from_yaml(path: Path = CONF_DIRECTORY / "logs.yaml") -> dict:

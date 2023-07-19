@@ -2,3 +2,4 @@ pandas
 requests
 jupyter
 luadata
+python-dotenv

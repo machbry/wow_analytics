@@ -14,7 +14,7 @@ handlers:
     class: logging.FileHandler
     level: DEBUG
     formatter: precise
-    filename: "../data/logs/app.log"
+    filename: "app.log"
     mode: "a"
 loggers:
   wlogs:
