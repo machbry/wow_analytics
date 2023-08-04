@@ -69,6 +69,17 @@ class Container:
         self._directory: Path = parent / name
         self._directory.mkdir(parents=True, exist_ok=True)
 
+    @property
+    def name(self) -> str:
+        return self._name
+
+    @property
+    def directory(self) -> Path:
+        return self._directory
+
+    def storage_file_format(self) -> FileFormat:
+        return self._storage_file_format
+
     def new_file_path(self, custom_filename: Union[str, None]) -> Path:
         filename = f"{custom_filename}{self._storage_file_format.suffix}" if custom_filename else \
             f"{self._name}_{now_to_string(date_format='%d-%m-%Y')}{self._storage_file_format.suffix}"
