@@ -3,3 +3,4 @@ requests
 jupyter
 luadata
 python-dotenv
+pytest
