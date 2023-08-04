@@ -1,6 +1,6 @@
 from pathlib import Path
 import pytest
-from wlogs.storage import BatchContainer, JSONFormat
+from wlogs.storage import BatchContainer, LatestContainer, JSONFormat, CSVFormat
 import requests
 
 TESTS_DATA_PATH = Path(__file__).parent.resolve() / "data"
@@ -9,9 +9,16 @@ TESTS_DATA_PATH.mkdir(parents=True, exist_ok=True)
 
 @pytest.fixture
 def json_batch_container():
-    return BatchContainer(**{"name": "test_batch",
+    return BatchContainer(**{"name": "json_batch",
                              "storage_file_format": JSONFormat(),
                              "parent": TESTS_DATA_PATH})
+
+
+@pytest.fixture
+def csv_latest_container():
+    return LatestContainer(**{"name": "csv_latest",
+                              "storage_file_format": CSVFormat(),
+                              "parent": TESTS_DATA_PATH})
 
 
 @pytest.fixture(autouse=True)
