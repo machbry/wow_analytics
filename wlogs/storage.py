@@ -77,6 +77,7 @@ class Container:
     def directory(self) -> Path:
         return self._directory
 
+    @property
     def storage_file_format(self) -> FileFormat:
         return self._storage_file_format
 
