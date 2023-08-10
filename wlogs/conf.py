@@ -1,12 +1,11 @@
-import os
-import re
 from pathlib import Path
 from dataclasses import dataclass
 import json
 import yaml
 
+from .storage import ROOT_DIRECTORY
 
-ROOT_DIRECTORY: Path = Path(re.sub(r'^/?(?:mnt/)?[a-z]', '', os.environ["WA_ROOT_DIR"])).resolve()
+
 CONF_DIRECTORY: Path = ROOT_DIRECTORY / "conf"
 
 

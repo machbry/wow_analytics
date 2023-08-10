@@ -6,7 +6,7 @@ from typing import Any
 import requests
 
 from .logger import Logger
-from .conf import ROOT_DIRECTORY
+from .storage import ROOT_DIRECTORY
 
 logger = Logger().get()
 

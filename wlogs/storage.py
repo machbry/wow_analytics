@@ -1,12 +1,13 @@
+import os
+import re
 from typing import Union, List, Any, Dict
 from pathlib import Path
 from datetime import datetime
 import json
 import pandas as pd
 
-from .conf import ROOT_DIRECTORY
 
-
+ROOT_DIRECTORY: Path = Path(re.sub(r'^/?(?:mnt/)?[a-z]', '', os.environ["WA_ROOT_DIR"])).resolve()
 DATA_DIRECTORY: Path = ROOT_DIRECTORY / "data"
 TEMP_DIRECTORY: Path = DATA_DIRECTORY / "temp"
 TEMP_DIRECTORY.mkdir(parents=True, exist_ok=True)
