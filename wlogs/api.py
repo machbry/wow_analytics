@@ -1,4 +1,3 @@
-import os
 import json
 from pathlib import Path
 from dataclasses import dataclass
@@ -7,14 +6,14 @@ from typing import Any
 import requests
 
 from .logger import Logger
+from .conf import ROOT_DIRECTORY
 
 logger = Logger().get()
 
 # https://www.warcraftlogs.com/api/docs
 TOKEN_URL = "https://www.warcraftlogs.com/oauth/token"
 AUTH_FLOW_DATA = {'grant_type': 'client_credentials'}
-BASE_DIRECTORY = Path(os.environ["WA_ROOT_DIR"]).resolve()
-CLIENT_CREDENTIALS_PATH = BASE_DIRECTORY / "client_credentials.json"
+CLIENT_CREDENTIALS_PATH = ROOT_DIRECTORY / "client_credentials.json"
 
 
 @dataclass
