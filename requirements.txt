@@ -4,3 +4,4 @@ jupyter
 luadata
 python-dotenv
 pytest
+sqlalchemy
