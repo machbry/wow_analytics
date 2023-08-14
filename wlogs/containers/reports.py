@@ -9,4 +9,6 @@ class ReportsContainer(LatestContainer):
 
     def extract(self) -> pd.DataFrame:
         reports = super().extract()
-        return pd.DataFrame(reports)
+        reports_df = pd.DataFrame(reports)
+        reports_df['guild'] = reports_df['guild'].apply(lambda x: x['id'])
+        return reports_df

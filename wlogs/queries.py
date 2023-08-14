@@ -55,7 +55,9 @@ def query_reports_on_page(guild_id: int, page: int, client: GraphQLClient) -> di
                             "title " +\
                             "startTime " +\
                             "endTime " +\
-                            "segments}}}}"
+                            "segments " +\
+                            "guild{" +\
+                                "id }}}}}"
     return client.post(query)
 
 
