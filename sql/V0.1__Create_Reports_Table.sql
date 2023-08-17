@@ -1,4 +1,6 @@
-CREATE TABLE reports (
+CREATE SCHEMA wow;
+
+CREATE TABLE wow.reports (
     code NCHAR(16) NOT NULL PRIMARY KEY,
     title TEXT,
     segments INTEGER,
