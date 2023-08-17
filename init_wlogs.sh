@@ -11,7 +11,7 @@ then
 fi
 
 {
-  echo "WA_ROOT_DIR=$root_dir" >> $env_file
-  echo "GUILD_ID=$guild_id" >> $env_file
+  echo "WA_ROOT_DIR=$root_dir"
+  echo "GUILD_ID=$guild_id"
   echo "DEFAULT_ZONE_ID=$default_zone_id"
 } >> $env_file
