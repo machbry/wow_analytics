@@ -132,3 +132,4 @@ dmypy.json
 /client_credentials.json
 *data/
 /*.env
+/postgresql_credentials.json

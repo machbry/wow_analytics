@@ -3,7 +3,7 @@ CREATE TABLE reports (
     title TEXT,
     segments INTEGER,
     guild_id INTEGER,
-    start DATETIME,
-    end DATETIME,
-    duration DATETIME
+    start_time TIMESTAMP,
+    end_time TIMESTAMP,
+    duration FLOAT
 );

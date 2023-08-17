@@ -5,3 +5,4 @@ luadata
 python-dotenv
 pytest
 sqlalchemy
+psycopg2
