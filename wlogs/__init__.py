@@ -9,6 +9,7 @@ from .storage import ROOT_DIRECTORY, DATA_DIRECTORY, TEMP_DIRECTORY
 from .containers import ReportsContainer, ReportDataContainer, RaidLootsContainer, BisListContainer
 from .conf import game_settings_from_json
 from .database import Session, engine
+from .backoffice import start_back_office
 
 
 GUILD_ID = os.environ["GUILD_ID"]
