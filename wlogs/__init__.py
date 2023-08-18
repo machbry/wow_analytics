@@ -8,7 +8,7 @@ from .queries import query_item, query_game_zones_on_page, query_game_specs, que
 from .storage import ROOT_DIRECTORY, DATA_DIRECTORY, TEMP_DIRECTORY
 from .containers import ReportsContainer, ReportDataContainer, RaidLootsContainer, BisListContainer
 from .conf import game_settings_from_json
-from .database import Session, engine
+from .database import engine
 from .backoffice import start_back_office
 
 

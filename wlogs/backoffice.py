@@ -1,4 +1,7 @@
 import cherrypy
+from typing import List
+
+from .database import Session, ReportsBase
 
 
 class Data:
@@ -19,7 +22,9 @@ class Data:
 
     @cherrypy.expose
     def reports(self):
-        return "Reports database."
+        with Session() as session:
+            reports: List[ReportsBase] = session.query(ReportsBase).all()
+        return [f"""<a href="./{report.code}">{report.code} <br /></a>""" for report in reports]
 
 
 class Root(object):
