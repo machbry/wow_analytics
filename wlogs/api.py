@@ -25,7 +25,7 @@ class GraphQLClient:
     _auth_flow_data = AUTH_FLOW_DATA
     _access_token: str = ""
 
-    def __post_init__(self):
+    def _init_access_token(self):
         logger.debug(f"Token request for client {self._client_id} at {self._token_url}.")
         response = requests.post(url=self._token_url,
                                  data=self._auth_flow_data,
@@ -48,6 +48,9 @@ class GraphQLClient:
         return self._access_token
 
     def post(self, query: str) -> Any:
+        if not self._access_token:
+            self._init_access_token()
+
         logger.debug(f"Query request: {query}")
         response = requests.get(self._authorize_url,
                                 headers=self._headers,
