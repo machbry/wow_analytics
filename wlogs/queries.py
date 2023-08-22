@@ -1,19 +1,27 @@
-from .api import GraphQLClient, graphQL_client_from_json
+from .api import graphQL_client_from_json
 
 
 CLIENT = graphQL_client_from_json()
 
 
-def query_item(id: int, client: GraphQLClient = CLIENT) -> dict:
+def post_query(query_func):
+    def query_arguments_wrapper(*args, **kwargs):
+        return CLIENT.post(query_func(*args, **kwargs))
+    return query_arguments_wrapper
+
+
+@post_query
+def query_item(id: int) -> str:
     query = "query {" +\
                 "gameData{" +\
                     "item(id: " + str(id) + "){" +\
                         "id " +\
                         "name}}}"
-    return client.post(query)
+    return query
 
 
-def query_game_zones_on_page(page: int, client: GraphQLClient = CLIENT) -> dict:
+@post_query
+def query_game_zones_on_page(page: int) -> str:
     query = "query {" +\
                 "gameData{" +\
                     "zones(page: " + str(page) + "){" +\
@@ -27,10 +35,11 @@ def query_game_zones_on_page(page: int, client: GraphQLClient = CLIENT) -> dict:
                         "data{" +\
                             "id " +\
                             "name }}}}"
-    return client.post(query)
+    return query
 
 
-def query_game_specs(zone_id: int, client: GraphQLClient = CLIENT) -> dict:
+@post_query
+def query_game_specs(zone_id: int) -> str:
     query = "query {" +\
                 "gameData{" +\
                     "classes(zone_id: " + str(zone_id) + "){" +\
@@ -39,10 +48,11 @@ def query_game_specs(zone_id: int, client: GraphQLClient = CLIENT) -> dict:
                         "specs{" +\
                             "id " +\
                             "name }}}}"
-    return client.post(query)
+    return query
 
 
-def query_reports_on_page(guild_id: int, page: int, client: GraphQLClient = CLIENT) -> dict:
+@post_query
+def query_reports_on_page(guild_id: int, page: int) -> str:
     query = "query " +\
                 "{reportData " +\
                     "{reports(guildID: " + str(guild_id) + ", page: " + str(page) + "){" +\
@@ -61,10 +71,11 @@ def query_reports_on_page(guild_id: int, page: int, client: GraphQLClient = CLIE
                             "segments " +\
                             "guild{" +\
                                 "id }}}}}"
-    return client.post(query)
+    return query
 
 
-def query_report(code: str, client: GraphQLClient = CLIENT, actor_type="Player") -> dict:
+@post_query
+def query_report(code: str, actor_type="Player") -> str:
     query = "query " +\
                 "{reportData " +\
                     "{report(code: " + "\"" + code + "\"" + "){" +\
@@ -90,4 +101,4 @@ def query_report(code: str, client: GraphQLClient = CLIENT, actor_type="Player")
                             "bossPercentage " +\
                             "lastPhase " +\
                             "averageItemLevel}}}}"
-    return client.post(query)
+    return query
